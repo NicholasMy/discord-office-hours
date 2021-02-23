@@ -109,6 +109,10 @@ async def on_message(message):
             msg = "Here's the Office Hours schedule on Piazza. https://piazza.com/class/kk305idk4vd72?cid=6"
             await message.channel.send(msg)
 
+        if message.content.startswith('!g') or message.content.startswith('!G'):    # output github repo link
+            msg = "https://github.com/0xJonR/discord-office-hours"
+            await message.channel.send(msg)
+
         #               dequeue: TA only
         if (message.content.startswith('!d') or message.content.startswith('!D')) and isTA(message.author):
             ta = message.author.mention
@@ -156,6 +160,7 @@ async def on_message(message):
                   "`!S` to **show** the queue\n" \
                   "`!L` to **leave** the queue\n" \
                   "`!P` to view the office hours schedule on **Piazza**\n" \
+                  "`!G` to view the Github Repo\n" \
                   "`!H` to view this **help** menu\n" \
                   "__Commands For TAs__\n" \
                   "`!D` to **dequeue** the next student\n" \
@@ -168,25 +173,26 @@ async def on_message(message):
 
     else:  # Not in office hours channel
         if isTA(message.author):  # Other fun stuff for only TAs because we don't want to spam the server
-            if message.content.lower().startswith('!panik'):
+            taMessage = message.content.lower()
+            if taMessage.startswith('!panik'):
                     await message.channel.send(
                         "https://media.discordapp.net/attachments/542843013559353344/692393206205251744/PANIK.gif")
 
-            if message.content.lower().startswith("!pet"):
+            if taMessage.startswith("!pet"):
                 possibilities = ["Purr", "Purrrrr", "Meow", "😹"]
                 await message.channel.send(random.choice(possibilities))
 
-            if "bad" in message.content.lower() and "gandalf" in message.content.lower():
+            if "bad" in taMessage and "gandalf" in taMessage or "bot" in taMessage:
                 await message.channel.send("Hisssss")
 
             # From Rin:
-            if "good" in message.content.lower() and "gandalf" in message.content.lower():
+            if "good" in taMessage and "gandalf" in taMessage or "bot" in taMessage:
                 possibilities = ["Purr", "Purrrrr", "Meow"]
                 await message.channel.send(random.choice(possibilities))
 
-            if "good" in message.content.lower() and "bot" in message.content.lower():
-                possibilities = ["Purr", "Purrrrr", "Meow"]
-                await message.channel.send(random.choice(possibilities))
+            # if "good" in message.content.lower() and "bot" in message.content.lower():
+            #     possibilities = ["Purr", "Purrrrr", "Meow"]
+            #     await message.channel.send(random.choice(possibilities))
 
 if __name__ == "__main__":
     mytoken = sys.argv[1]
